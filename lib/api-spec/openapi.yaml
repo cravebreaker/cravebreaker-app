@@ -1,0 +1,63 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+paths:
+  /naseem/reply:
+    post:
+      operationId: getNaseemReply
+      summary: Get a short non-medical encouragement message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoachMessage"
+      responses:
+        "200":
+          description: Naseem reply
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoachReply"
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+components:
+  schemas:
+    CoachMessage:
+      type: object
+      required: [message]
+      properties:
+        message: { type: string, minLength: 1, maxLength: 500 }
+    CoachReply:
+      type: object
+      required: [reply]
+      properties:
+        reply: { type: string }
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+

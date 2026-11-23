@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "CraveBreaker"
+description = "رفيق عربي يساعد المدخنين في الأردن على تجاوز الرغبة بالتدخين ومتابعة رحلة الإقلاع."
+version = "1.0.0"
+id = "artifacts/cravebreaker"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25085
+
+[services.development]
+run = "pnpm --filter @workspace/cravebreaker run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cravebreaker", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/cravebreaker/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25085"
+BASE_PATH = "/"

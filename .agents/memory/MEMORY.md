@@ -1,0 +1,1 @@
+- [CraveBreaker prototype boundaries](cravebreaker-prototype.md) — Keep clinic listings current, pharmacy bookings clearly simulated, and Naseem strictly non-medical.
