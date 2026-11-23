@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Send, ShieldCheck, RotateCcw } from 'lucide-react';
 import { useGetNaseemReply } from '@workspace/api-client-react';
 import { Naseem } from '@/components/Naseem';
+import { localNaseemReply } from '@/lib/naseem-local';
 
 interface Msg { role: 'me' | 'naseem'; text: string; failed?: boolean }
 const SUGGEST = ['جاي عبالي سيجارة هلق', 'بعد القهوة بتصعب علي', 'كيف أشتت حالي؟'];
@@ -17,7 +18,7 @@ export default function ChatPage() {
     const message = m.trim().slice(0, 500); if (!message || reply.isPending) return;
     setText(''); setMsgs((x) => [...x, { role: 'me', text: message }]);
     try { const r = await reply.mutateAsync({ data: { message } }); setMsgs((x) => [...x, { role: 'naseem', text: r.reply }]); }
-    catch { setMsgs((x) => [...x, { role: 'naseem', text: 'صار خلل بالاتصال. جرّب كمان مرة.', failed: true }]); }
+    catch { setMsgs((x) => [...x, { role: 'naseem', text: localNaseemReply(message) }]); }
   };
   const lastMine = [...msgs].reverse().find((m) => m.role === 'me')?.text;
 
